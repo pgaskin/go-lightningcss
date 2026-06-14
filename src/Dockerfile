@@ -19,7 +19,7 @@ RUN mkdir /opt/binaryen && tar -C /opt/binaryen --strip-components=1 -xf binarye
 
 FROM golang:1.26-trixie AS wasm2go
 RUN GOPROXY=direct GONOSUMDB=github.com/ncruces/wasm2go GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=url.https://github.com/pgaskin/wasm2go.insteadOf GIT_CONFIG_VALUE_0=https://github.com/ncruces/wasm2go \
-    GOBIN=/ go install -trimpath -v github.com/ncruces/wasm2go@277f668e832ae3b99d7e7595783a4654f1204b76
+    GOBIN=/ go install -trimpath -v github.com/ncruces/wasm2go@f58c5dc11b49225fd336f1ad2d56b5001a47fc51
 
 FROM rust:1.96.0-trixie AS rust-base
 RUN rustup target add wasm32-wasip1
