@@ -1,0 +1,28 @@
+name: Attest lightningcss build
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - internal/lightningcss.go
+      - internal/lightningcss.dat
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+  attestations: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - run: docker build --platform amd64 --pull --no-cache --progress plain --output . src
+      - run: git diff --exit-code internal # ensure the build was reproducible
+      - uses: actions/attest-build-provenance@v3
+        with:
+          subject-path: |
+            internal/lightningcss.go
+            internal/lightningcss.dat
