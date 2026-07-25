@@ -18,8 +18,8 @@ ADD --checksum=${BINARYEN_CHECKSUM} ${BINARYEN_URL} ./binaryen.tar.gz
 RUN mkdir /opt/binaryen && tar -C /opt/binaryen --strip-components=1 -xf binaryen.tar.gz
 
 FROM golang:1.26-trixie AS wasm2go
-RUN GOPROXY=direct GONOSUMDB=github.com/ncruces/wasm2go GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=url.https://github.com/pgaskin/wasm2go.insteadOf GIT_CONFIG_VALUE_0=https://github.com/ncruces/wasm2go \
-    GOBIN=/ go install -trimpath -v github.com/ncruces/wasm2go@f58c5dc11b49225fd336f1ad2d56b5001a47fc51
+RUN GOPROXY=direct GONOSUMDB=github.com/ncruces/wasm2go GIT_CONFIG_COUNT=0 GIT_CONFIG_KEY_0=url.https://github.com/pgaskin/wasm2go.insteadOf GIT_CONFIG_VALUE_0=https://github.com/ncruces/wasm2go \
+    GOBIN=/ go install -trimpath -v github.com/ncruces/wasm2go@8f3cc400ff914d92aa84d60a19a8b3b9b87a8e98
 
 FROM rust:1.96.0-trixie AS rust-base
 RUN rustup target add wasm32-wasip1
@@ -42,7 +42,7 @@ RUN wasm-opt -g target/wasm32-wasip1/release/lightningcss_shim.wasm -o lightning
 
 COPY --link --from=wasm2go /wasm2go /usr/local/bin/
 RUN mkdir -p internal
-RUN wasm2go -embed -maxfunc=15000 -pkg lightningcss_wasm -o internal/lightningcss.go lightningcss.opt.wasm
+RUN wasm2go -embed -pkg lightningcss_wasm -o internal/lightningcss.go lightningcss.opt.wasm
 
 FROM scratch
 COPY --link --from=build /build/internal/ /internal/
