@@ -98,10 +98,10 @@ impl Request {
             unused_symbols: self.unused_symbols.iter().cloned().collect(),
         }
     }
-    pub fn parser_options<'a, 'i>(
+    pub fn parser_options<'a>(
         &'a self,
-        warnings: Arc<RwLock<Vec<Error<ParserError<'i>>>>>,
-    ) -> Result<ParserOptions<'a, 'i>, String> {
+        warnings: Arc<RwLock<Vec<Error<ParserError<'a>>>>>,
+    ) -> Result<ParserOptions<'a>, String> {
         let css_modules = match &self.css_modules {
             Some(cm) => Some(cm.into_css_modules()?),
             None => None,
@@ -154,7 +154,7 @@ impl TargetsReq {
 }
 
 impl CssModulesReq {
-    pub fn into_css_modules(&self) -> Result<Config<'_>, String> {
+    pub fn into_css_modules(&self) -> Result<Config, String> {
         let mut config = Config::default();
         if let Some(p) = &self.pattern {
             config.pattern = Pattern::parse(p).map_err(|e| e.to_string())?;

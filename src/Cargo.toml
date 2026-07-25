@@ -10,7 +10,7 @@ crate-type = ["cdylib"]
 
 [dependencies]
 # nodejs gives Serialize for the output types without pulling in the rest of serde or threads (like "bundler")
-lightningcss = { version = "1.0.0-alpha.71", default-features = false, features = [
+lightningcss = { version = "1.0.0-alpha.72", default-features = false, features = [
   "nodejs",
   "sourcemap",
 ] }

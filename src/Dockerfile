@@ -21,7 +21,7 @@ FROM golang:1.26-trixie AS wasm2go
 RUN GOPROXY=direct GONOSUMDB=github.com/ncruces/wasm2go GIT_CONFIG_COUNT=0 GIT_CONFIG_KEY_0=url.https://github.com/pgaskin/wasm2go.insteadOf GIT_CONFIG_VALUE_0=https://github.com/ncruces/wasm2go \
     GOBIN=/ go install -trimpath -v github.com/ncruces/wasm2go@8f3cc400ff914d92aa84d60a19a8b3b9b87a8e98
 
-FROM rust:1.96.0-trixie AS rust-base
+FROM rust:1.97.1-trixie AS rust-base
 RUN rustup target add wasm32-wasip1
 COPY --link --from=wasi-sdk /opt /opt
 COPY --link --from=binaryen /opt /opt
