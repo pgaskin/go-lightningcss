@@ -7,8 +7,6 @@ This library wraps a WebAssembly build of LightningCSS transpiled to Go using [w
 > [!WARNING]
 >
 > These bindings are still experimental and are subject to change. They also produce extremely large binaries and are slow to compile.
->
-> An experimental (and mostly untested) version of wasm2go was used to attempt to make it compile more efficiently.
 
 ### Getting started
 
